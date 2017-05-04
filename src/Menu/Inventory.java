@@ -43,7 +43,7 @@ ResultSet inputInventoryRS;
 DefaultListModel tableNames = new DefaultListModel();
 public static final int intKEYCOLUMN = 0;
 String inputDate;
-
+private Object dataDate;
 
      
      
@@ -263,12 +263,9 @@ inputInventoryDate.setText(localDate.toString());
             
             
             inputInventoryStatement = inputInventoryConnect.createStatement();
-            inputInventoryRS = inputInventoryStatement.executeQuery("SELECT * FROM Truck_In");
+            inputInventoryRS = inputInventoryStatement.executeQuery("SELECT Product_No, Product_Desc, ' ' AS Cases, ' ' AS Items_Per_Case, ' ' AS Total_Items_Recieved FROM Truck_In");
             inputInventoryTable.setModel(DbUtils.resultSetToTableModel(inputInventoryRS));
-            inputInventoryTable.getColumn("Date").setMaxWidth(0);
-        inputInventoryTable.getColumn("Date").setMinWidth(0);
-        inputInventoryTable.getColumn("Date").setMaxWidth(0);
-        inputInventoryTable.getColumn("Date").setWidth(0);
+           
             inputInventoryTable.getModel().addTableModelListener(new TableModelListener()
              
             {
@@ -283,10 +280,11 @@ inputInventoryDate.setText(localDate.toString());
                     Object data = model.getValueAt(row, column);
                     System.out.println("key = " + iKey + "   data = " + data);
                     boolean rowColored = true;
-                    Object dataDate=inputInventoryDate.getText();
+                    dataDate=inputInventoryDate.getText();
+                    Object dataColumn = model.getColumnName(column);
                     try
                     {
-                        String strSQL = "UPDATE Truck_In SET Cases = " + data + ", DATE =" + dataDate  + " WHERE Product_No ='"+ iKey.intValue() + "';";
+                        String strSQL = "UPDATE Truck_In SET " + dataColumn + " = " + data + ", DATE =" + dataDate  + " WHERE Product_No ='"+ iKey.intValue() + "';";
                         System.out.println("strSQL = " + strSQL);
                         it = inputInventoryStatement.executeUpdate(strSQL);
                     }
@@ -304,9 +302,12 @@ inputInventoryDate.setText(localDate.toString());
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
 
 try {   
-int it =inputInventoryStatement.executeUpdate("UPDATE Truck_In set Total_Items_Recieved = Cases * Items_Per_Case;");
-it =inputInventoryStatement.executeUpdate("UPDATE Truck_In set OnHand = OnHand + Total_Items_Recieved;");
-ResultSet rs = inputInventoryStatement.executeQuery("Select * from Truck_In");
+    System.out.println(dataDate);
+int it =inputInventoryStatement.executeUpdate("UPDATE Truck_In set Total_Items_Recieved = Cases * Items_Per_Case Where Date ="+ dataDate +";");
+
+it =inputInventoryStatement.executeUpdate("UPDATE Truck_In set OnHand = OnHand + (select Total_Items_Recieved Where Date ="+ dataDate + ");");
+
+ResultSet rs = inputInventoryStatement.executeQuery("SELECT *FROM Truck_In");
 //TableModel inventory = new inventoryTableModel(); 
         inputInventoryTable.setModel(DbUtils.resultSetToTableModel(inputInventoryRS));
 inputInventoryTable.getColumn("Date").setMaxWidth(0);
