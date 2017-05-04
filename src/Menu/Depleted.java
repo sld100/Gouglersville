@@ -43,6 +43,7 @@ private static final String DataBase = "org.sqlite.JDBC";
    // DefaultListModel tableNames = new DefaultListModel();
     public static final int intKEYCOLUMN = 0;
   private Object dataDate;
+  private Object iKey;
     public String [] menuList= {"Appetizers", "Burgers","Club Sandwiches","Deserts","Dinner Entrees", "Extras",
 "French Fries", "Hot Sandwiches", "Pasta or Stir Fry","Salads","Vegetables","Soups", "Wings","Wraps"};
     /**
@@ -76,7 +77,7 @@ depletedtablelist.addListSelectionListener(listSelectionListener);
         jScrollPane2 = new javax.swing.JScrollPane();
         depletedtablelist = new javax.swing.JList<String>(menuList);
         reconcileDepleted = new javax.swing.JButton();
-        returnToMain = new javax.swing.JButton();
+        depletedRreturnToMain = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -111,11 +112,11 @@ depletedtablelist.addListSelectionListener(listSelectionListener);
             }
         });
 
-        returnToMain.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        returnToMain.setText("Return To Main ");
-        returnToMain.addActionListener(new java.awt.event.ActionListener() {
+        depletedRreturnToMain.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        depletedRreturnToMain.setText("Return To Main ");
+        depletedRreturnToMain.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                returnToMainActionPerformed(evt);
+                depletedRreturnToMainActionPerformed(evt);
             }
         });
 
@@ -125,7 +126,7 @@ depletedtablelist.addListSelectionListener(listSelectionListener);
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(returnToMain, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(depletedRreturnToMain, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(62, 62, 62))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -159,15 +160,14 @@ depletedtablelist.addListSelectionListener(listSelectionListener);
                         .addGap(67, 67, 67)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(DateField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(dateLabel))
-                        .addGap(43, 43, 43))
+                            .addComponent(dateLabel)))
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addGap(24, 24, 24)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(34, 34, 34)
                 .addComponent(reconcileDepleted, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 51, Short.MAX_VALUE)
-                .addComponent(returnToMain, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(depletedRreturnToMain, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(30, 30, 30))
         );
 
@@ -277,7 +277,7 @@ depletedOutSearchstatement =connect.createStatement();
 
 convertSelected();    
 
-depletedOutRS  = depletedOutSearchstatement.executeQuery("SELECT Menu_ID, Menu_Desc, '' as Sold, Destroyed, '' as Total_Depleted from Menu_Items WHERE Menu_ID LIKE '"+ depletedselected+ "%'");
+depletedOutRS  = depletedOutSearchstatement.executeQuery("SELECT Menu_ID, Menu_Desc, '' as Sold, ' ' as Destroyed, '' as Total_Depleted from Menu_Items WHERE Menu_ID LIKE '"+ depletedselected+ "%'");
 depletedTable.setModel(DbUtils.resultSetToTableModel(depletedOutRS));
         depletedTable.getModel().addTableModelListener(this);
 
@@ -299,15 +299,17 @@ depletedTable.setModel(DbUtils.resultSetToTableModel(depletedOutRS));
  
     }                                        
 
-    private void returnToMainActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_returnToMainActionPerformed
+    private void depletedRreturnToMainActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_depletedRreturnToMainActionPerformed
        MainFrame MF = new MainFrame();
           MF.main(null);
-    }//GEN-LAST:event_returnToMainActionPerformed
+                    this.dispose();
+    }//GEN-LAST:event_depletedRreturnToMainActionPerformed
 
     private void reconcileDepletedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reconcileDepletedActionPerformed
        try {   
-int it =depletedOutSearchstatement.executeUpdate("UPDATE Menu_Items set Total_Depleted = (Sold + Destroyed Where Date ="+ dataDate + ");");
-it =depletedOutSearchstatement.executeUpdate("UPDATE Truck_In set OnHand = OnHand - (Select Total_Depleted From Menu_Items Where Date ="+ dataDate + ");");
+int it =depletedOutSearchstatement.executeUpdate("UPDATE Menu_Items set Total_Depleted = Sold + Destroyed Where Date = "+ dataDate );
+System.out.println(dataDate + "first");
+it =depletedOutSearchstatement.executeUpdate("UPDATE Truck_In set OnHand = OnHand - ((Select Total_Depleted From Menu_Items Where Menu_ID = " + iKey + " AND Date = "+ dataDate + ") * (SELECT " + iKey + " from Items_To_Menu));");
  depletedOutRS = depletedOutSearchstatement.executeQuery("Select * from Menu_Items");
   
 
@@ -374,13 +376,13 @@ Logger.getLogger(Inventory.class.getName()).log(Level.SEVERE, null, ex);
     private javax.swing.JFormattedTextField DateField;
     private javax.swing.JLabel DepletedLabel;
     private javax.swing.JLabel dateLabel;
+    private javax.swing.JButton depletedRreturnToMain;
     private javax.swing.JTable depletedTable;
     private javax.swing.JList<String> depletedtablelist;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JButton reconcileDepleted;
-    private javax.swing.JButton returnToMain;
     // End of variables declaration//GEN-END:variables
 
     @Override
@@ -390,7 +392,7 @@ Logger.getLogger(Inventory.class.getName()).log(Level.SEVERE, null, ex);
                     int row = e.getFirstRow();
                     int column = e.getColumn();
                     TableModel model = (TableModel)e.getSource();
-                 Object iKey = model.getValueAt(row, intKEYCOLUMN);
+                iKey = model.getValueAt(row, intKEYCOLUMN);
                     Object data = model.getValueAt(row, column);
                     Object dataColumn = model.getColumnName(column);
                     
