@@ -192,14 +192,17 @@ public void connectMenu()
 
     private void RestockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RestockActionPerformed
         INTRY.main(null);
+           this.dispose();
     }//GEN-LAST:event_RestockActionPerformed
 
     private void DepletedStockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DepletedStockActionPerformed
-        DPT.main(null);        // TODO add your handling code here:
+        DPT.main(null);   
+           this.dispose();// TODO add your handling code here:
     }//GEN-LAST:event_DepletedStockActionPerformed
 
     private void ReportsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ReportsButtonActionPerformed
         RP.main(null);
+        this.dispose();
     }//GEN-LAST:event_ReportsButtonActionPerformed
 
     /**
