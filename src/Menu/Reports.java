@@ -397,13 +397,13 @@ else if (endDate.getText().equals(""))
 try 
     {
         inventoryStatement = connect.createStatement();
-        inventoryRS = inventoryStatement.executeQuery("SELECT * FROM Truck_In ");//WHERE Date >= '" + fromDate +"' AND Date <= '" + toDate+ "'");
+        inventoryRS = inventoryStatement.executeQuery("SELECT * FROM Truck_In WHERE Date >= '" + fromDate +"' AND Date <= '" + toDate+ "'");
         table.setModel(DbUtils.resultSetToTableModel(inventoryRS));
         table.getModel().addTableModelListener(this); 
-        table.getColumn("OnHand").setMaxWidth(0);
-        table.getColumn("OnHand").setMinWidth(0);
-        table.getColumn("OnHand").setMaxWidth(0);
-        table.getColumn("OnHand").setWidth(0);
+       table.getColumn("onHand").setMaxWidth(0);
+     table.getColumn("onHand").setMinWidth(0);
+        table.getColumn("onHand").setMaxWidth(0);
+       table.getColumn("onHand").setWidth(0);
         
                                            
     } // end tey
