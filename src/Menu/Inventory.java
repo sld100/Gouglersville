@@ -71,7 +71,7 @@ inputInventoryConnect = inConnect;
         jLabel2 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         inputInventoryDate = new javax.swing.JFormattedTextField();
-        jButton4 = new javax.swing.JButton();
+        inventoryReturnToMain = new javax.swing.JButton();
         inputInventory = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
 
@@ -121,11 +121,11 @@ inputInventoryConnect = inConnect;
             }
         });
 
-        jButton4.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jButton4.setText("Return to Main ");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
+        inventoryReturnToMain.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        inventoryReturnToMain.setText("Return to Main ");
+        inventoryReturnToMain.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
+                inventoryReturnToMainActionPerformed(evt);
             }
         });
 
@@ -158,11 +158,11 @@ inputInventoryConnect = inConnect;
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(inputInventoryDate, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(134, 134, 134)
-                        .addComponent(inputInventory)
-                        .addGap(391, 391, 391))))
+                        .addComponent(inputInventory)))
+                .addGap(391, 391, 391))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(inventoryReturnToMain, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(129, 129, 129))
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -189,17 +189,18 @@ inputInventoryConnect = inConnect;
                 .addGap(41, 41, 41)
                 .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 82, Short.MAX_VALUE)
-                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(inventoryReturnToMain, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(42, 42, 42))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+    private void inventoryReturnToMainActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inventoryReturnToMainActionPerformed
          MainFrame MF = new MainFrame();
           MF.main(null);
-    }//GEN-LAST:event_jButton4ActionPerformed
+          this.dispose();
+    }//GEN-LAST:event_inventoryReturnToMainActionPerformed
 
  private void createNewTableModel() 
  {
@@ -361,7 +362,7 @@ Logger.getLogger(Inventory.class.getName()).log(Level.SEVERE, null, ex);
             
             String DataBase = "org.sqlite.JDBC";
             String JDBCThinger = "jdbc:sqlite:";
-            String DBName = "F:\\411project\\Gouglersville-\\Gouglersville\\src\\Menu\\GouglersvilleMenu.db";
+            String DBName = "F:\\Gouglersville (Unzipped Files)\\Gouglersville\\src\\Menu\\GouglersvilleMenu.db";
             Class.forName(DataBase);
             Connection connect = DriverManager.getConnection(JDBCThinger + DBName);
             
@@ -383,8 +384,8 @@ Logger.getLogger(Inventory.class.getName()).log(Level.SEVERE, null, ex);
     private javax.swing.JButton inputInventory;
     private javax.swing.JFormattedTextField inputInventoryDate;
     private javax.swing.JTable inputInventoryTable;
+    private javax.swing.JButton inventoryReturnToMain;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
