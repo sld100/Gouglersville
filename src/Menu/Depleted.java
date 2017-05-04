@@ -42,7 +42,7 @@ private static final String DataBase = "org.sqlite.JDBC";
     ResultSet depletedOutRS; 
    // DefaultListModel tableNames = new DefaultListModel();
     public static final int intKEYCOLUMN = 0;
-  
+  private Object dataDate;
     public String [] menuList= {"Appetizers", "Burgers","Club Sandwiches","Deserts","Dinner Entrees", "Extras",
 "French Fries", "Hot Sandwiches", "Pasta or Stir Fry","Salads","Vegetables","Soups", "Wings","Wraps"};
     /**
@@ -277,7 +277,7 @@ depletedOutSearchstatement =connect.createStatement();
 
 convertSelected();    
 
-depletedOutRS  = depletedOutSearchstatement.executeQuery("SELECT Menu_ID, '' as Menu_Desc, '' as Sold, Destroyed, '' as Total_Depleted from Menu_Items WHERE Menu_ID LIKE '"+ depletedselected+ "%'");
+depletedOutRS  = depletedOutSearchstatement.executeQuery("SELECT Menu_ID, Menu_Desc, '' as Sold, Destroyed, '' as Total_Depleted from Menu_Items WHERE Menu_ID LIKE '"+ depletedselected+ "%'");
 depletedTable.setModel(DbUtils.resultSetToTableModel(depletedOutRS));
         depletedTable.getModel().addTableModelListener(this);
 
@@ -306,10 +306,11 @@ depletedTable.setModel(DbUtils.resultSetToTableModel(depletedOutRS));
 
     private void reconcileDepletedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reconcileDepletedActionPerformed
        try {   
-int it =depletedOutSearchstatement.executeUpdate("UPDATE Menu_Items set Total_Depleted = Sold + Destroyed;");
-it =depletedOutSearchstatement.executeUpdate("UPDATE Truck_In set OnHand = OnHand - (Select Total_Depleted From Menu_Items);");
+int it =depletedOutSearchstatement.executeUpdate("UPDATE Menu_Items set Total_Depleted = (Sold + Destroyed Where Date ="+ dataDate + ");");
+it =depletedOutSearchstatement.executeUpdate("UPDATE Truck_In set OnHand = OnHand - (Select Total_Depleted From Menu_Items Where Date ="+ dataDate + ");");
  depletedOutRS = depletedOutSearchstatement.executeQuery("Select * from Menu_Items");
-//TableModel inventory = new inventoryTableModel(); 
+  
+
        depletedTable.setModel(DbUtils.resultSetToTableModel(depletedOutRS));
 depletedTable.getColumn("Date").setMaxWidth(0);
         depletedTable.getColumn("Date").setMinWidth(0);
@@ -391,20 +392,21 @@ Logger.getLogger(Inventory.class.getName()).log(Level.SEVERE, null, ex);
                     TableModel model = (TableModel)e.getSource();
                  Object iKey = model.getValueAt(row, intKEYCOLUMN);
                     Object data = model.getValueAt(row, column);
-                    System.out.println("key = " + iKey + "   data = " + data);
+                    Object dataColumn = model.getColumnName(column);
+                    
+                    System.out.println("key = " + iKey + "   data = " + data + "COLUMN" + dataColumn);
                     boolean rowColored = true;
-                    Object dataDate=DateField.getText();
+                    dataDate=DateField.getText();
                     try
                     {
-                        String strSQL = "UPDATE Menu_Items SET Sold = " + data + " WHERE Menu_ID ='"+ iKey+ "';";
+                        String strSQL = "UPDATE Menu_Items SET " + dataColumn + "= " + data + " WHERE Menu_ID ='"+ iKey+ "';";
                         
-                        System.out.println("strSQL = " + strSQL);
+                      
                         
                         it = depletedOutSearchstatement.executeUpdate(strSQL);
                          strSQL = "UPDATE Menu_Items SET Date = " + dataDate + " WHERE Menu_ID ='"+ iKey+ "';";
                         
-                        System.out.println("strSQL = " + strSQL);
-                        
+                  
                         it = depletedOutSearchstatement.executeUpdate(strSQL);
                     }
                     catch (SQLException ex)
