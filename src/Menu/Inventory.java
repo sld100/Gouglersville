@@ -277,7 +277,7 @@ inputInventoryDate.setText(localDate.toString());
                     int row = e.getFirstRow();
                     int column = e.getColumn();
                     TableModel model = (TableModel)e.getSource();
-                    Integer iKey = (Integer)model.getValueAt(row, intKEYCOLUMN);
+                   Object iKey = model.getValueAt(row, intKEYCOLUMN);
                     Object data = model.getValueAt(row, column);
                     System.out.println("key = " + iKey + "   data = " + data);
                     boolean rowColored = true;
@@ -285,7 +285,7 @@ inputInventoryDate.setText(localDate.toString());
                     Object dataColumn = model.getColumnName(column);
                     try
                     {
-                        String strSQL = "UPDATE Truck_In SET " + dataColumn + " = " + data + ", DATE =" + dataDate  + " WHERE Product_No ='"+ iKey.intValue() + "';";
+                        String strSQL = "UPDATE Truck_In SET " + dataColumn + " = " + data + ", DATE =" + dataDate  + " WHERE Product_No ='"+ iKey + "';";
                         System.out.println("strSQL = " + strSQL);
                         it = inputInventoryStatement.executeUpdate(strSQL);
                     }
