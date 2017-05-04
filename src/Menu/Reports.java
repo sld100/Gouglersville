@@ -88,7 +88,7 @@ tablelist.addListSelectionListener(listSelectionListener);
         startDate = new javax.swing.JFormattedTextField();
         endDate = new javax.swing.JFormattedTextField();
         jLabel5 = new javax.swing.JLabel();
-        ReturntoMain = new javax.swing.JButton();
+        reportingReturntoMain = new javax.swing.JButton();
 
         jCheckBoxMenuItem1.setSelected(true);
         jCheckBoxMenuItem1.setText("jCheckBoxMenuItem1");
@@ -172,12 +172,12 @@ tablelist.addListSelectionListener(listSelectionListener);
         jLabel5.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel5.setText("End Date (YYYY-MM-DD):");
 
-        ReturntoMain.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        ReturntoMain.setText("Return to Main Menu");
-        ReturntoMain.setBorder(null);
-        ReturntoMain.addActionListener(new java.awt.event.ActionListener() {
+        reportingReturntoMain.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        reportingReturntoMain.setText("Return to Main Menu");
+        reportingReturntoMain.setBorder(null);
+        reportingReturntoMain.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ReturntoMainActionPerformed(evt);
+                reportingReturntoMainActionPerformed(evt);
             }
         });
 
@@ -222,7 +222,7 @@ tablelist.addListSelectionListener(listSelectionListener);
                 .addGap(84, 211, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(ReturntoMain, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(reportingReturntoMain, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(30, 30, 30))
         );
         jPanel1Layout.setVerticalGroup(
@@ -252,7 +252,7 @@ tablelist.addListSelectionListener(listSelectionListener);
                             .addComponent(jLabel5)
                             .addComponent(startDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(31, 31, 31)
-                        .addComponent(ReturntoMain, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(reportingReturntoMain, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(24, 24, 24))))
         );
 
@@ -276,11 +276,12 @@ tablelist.addListSelectionListener(listSelectionListener);
        
         
 
-    private void ReturntoMainActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ReturntoMainActionPerformed
+    private void reportingReturntoMainActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reportingReturntoMainActionPerformed
 MainFrame MF = new MainFrame();
 MF.main(null);
+          this.dispose();
 // button to return to main screen
-    }//GEN-LAST:event_ReturntoMainActionPerformed
+    }//GEN-LAST:event_reportingReturntoMainActionPerformed
 public void runCurrentDate()
 {
 DateTimeFormatter defaultDate = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -509,7 +510,6 @@ catch (SQLException ex)
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton ReturntoMain;
     private javax.swing.JCheckBox depleted;
     private javax.swing.JFormattedTextField endDate;
     private javax.swing.JCheckBox inventory;
@@ -526,6 +526,7 @@ catch (SQLException ex)
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JCheckBox onHand;
+    private javax.swing.JButton reportingReturntoMain;
     private javax.swing.JFormattedTextField startDate;
     private javax.swing.JTable table;
     private javax.swing.JList<String> tablelist;
